@@ -19,7 +19,7 @@
   </head>
   <body>
     <div>
-      <select name="buttons-js" class="buttons-js">
+      <select name="buttons-js" class="buttons-js" onchange="displayCountry()">
         <option>Select a country</option>
       </select>
     </div>
@@ -35,10 +35,27 @@
             <div class="capital-js">Capital: <span></span></div>
             <div class="population-js">Population: <span></span></div>
             <div class="minimum-js">Minimum Wage: <span></span></div>
+            <div class="area-js">Area: <span></span></div>
           </div>
         </div>
       </div>
       <div class="col-2"></div>
+      <div>
+        País com maior população do mundo:
+        <span class="population-value-js"></span>
+      </div>
+      <div>
+        País com menor população do mundo:
+        <span class="less-population-value-js"></span>
+      </div>
+      <div>
+        País com maior área do mundo:
+        <span class="highest-area-value-js"></span>km<sup>2</sup>
+      </div>
+      <div>
+        País com menor área do mundo:
+        <span class="lowest-area-value-js"></span>km<sup>2</sup>
+      </div>
     </div>
   </body>
 </html>

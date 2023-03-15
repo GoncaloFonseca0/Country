@@ -44,37 +44,36 @@ const countries = [
   },
 ];
 
-//buttons;
-// const country1 = {
-//   name: "Portugal",
-//   capital: "Lisboa",
-//   population: 10310000,
-//   minimunSalary: 740,
-//   flag: "https://upload.wikimedia.org/wikipedia/commons/5/5c/Flag_of_Portugal.svg",
-// };
+let buttons;
+const country1 = {
+  name: "Portugal",
+  capital: "Lisboa",
+  population: 10310000,
+  minimunSalary: 740,
+  flag: "https://upload.wikimedia.org/wikipedia/commons/5/5c/Flag_of_Portugal.svg",
+};
 
-// const country2 = {
-//   name: "Spain",
-//   capital: "Madrid",
-//   population: 47350000,
-//   minimunSalary: 1050,
-//   flag: "https://upload.wikimedia.org/wikipedia/commons/9/9a/Flag_of_Spain.svg",
-// };
-// function displayCountryPortugal() {
-//   document.querySelector(".img-js").src = country1.flag;
-//   document.querySelector(".CountryName-js").innerHTML = country1.name;
-//   document.querySelector(".capital-js").innerHTML = country1.capital;
-//   document.querySelector(".population-js").innerHTML = country1.population;
-//   document.querySelector(".minium-salary").innerHTML = country1.minimunSalary;
-// }
+const country2 = {
+  name: "Spain",
+  capital: "Madrid",
+  population: 47350000,
+  minimunSalary: 1050,
+  flag: "https://upload.wikimedia.org/wikipedia/commons/9/9a/Flag_of_Spain.svg",
+};
+function displayCountryPortugal() {
+  document.querySelector(".img-js").src = country1.flag;
+  document.querySelector(".CountryName-js").innerHTML = country1.name;
+  document.querySelector(".capital-js").innerHTML = country1.capital;
+  document.querySelector(".population-js").innerHTML = country1.population;
+}
 
-// function displayCountrySpain() {
-//   document.querySelector(".img-js").src = country2.flag;
-//   document.querySelector(".CountryName-js").innerHTML = country2.name;
-//   document.querySelector(".capital-js").innerHTML = country2.capital;
-//   document.querySelector(".population-js").innerHTML = country2.population;
-//   document.querySelector(".minium-salary").innerHTML = country2.minimunSalary;
-// }
+function displayCountrySpain() {
+  document.querySelector(".img-js").src = country2.flag;
+  document.querySelector(".CountryName-js").innerHTML = country2.name;
+  document.querySelector(".capital-js").innerHTML = country2.capital;
+  document.querySelector(".population-js").innerHTML = country2.population;
+  document.querySelector(".minium-salary").innerHTML = country2.minimunSalary;
+}
 
 countries.forEach((country) => {
   let button = document.createElement("option");
@@ -84,13 +83,66 @@ countries.forEach((country) => {
   document.querySelector(".buttons-js").appendChild(button);
 });
 
-function displayCountry(countryId) {
+function displayCountry() {
   document.querySelector(".country-info-js").style.display = "block";
-  let country = countries.find((country) => country.name === countryId);
+  let selectedCountry = document.querySelector(`.buttons-js`).value;
+  let country = countries.find((country) => country.name === selectedCountry);
 
   document.querySelector("img").src = country.flag;
   document.querySelector(".name-js span").innerHTML = country.name;
   document.querySelector(".capital-js span").innerHTML = country.capital;
   document.querySelector(".population-js span").innerHTML = country.population;
   document.querySelector(".minimum-js span").innerHTML = country.minimunSalary;
+}
+
+let countriesOrder = [];
+
+fetch("https://restcountries.com/v2/all")
+  .then((resp) => resp.json())
+  .then((countriesList) => {
+    console.log(countriesList);
+    countries = countriesList;
+    countries.forEach((country) => {
+      let button = document.createElement("option");
+      button.setAttribute("class", "btn btn-primary");
+      button.innerHTML = country.name;
+      button.value = country.name;
+      document.querySelector(".buttons-js").appendChild(button);
+    });
+
+    let orderedAreaCountries = countries;
+
+    let orderedPopCountries = countries.sort(
+      (countryA, countryB) => countryB.population - countryA.population
+    );
+    let countryHP = orderedPopCountries[0];
+    let countryLA = orderedAreaCountries[orderedAreaCountries.length - 1];
+    let countryHA = orderedAreaCountries[0];
+    let countryLP = orderedPopCountries[orderedPopCountries.length - 1];
+    // let countryHP = countries.map(country => country.population).sort((a,b)=> b -a);
+    document.querySelector(
+      ".population-value-js"
+    ).innerHTML = `${countryHP.name} with ${countryHP.population}`;
+    document.querySelector(
+      ".less-population-value-js"
+    ).innerHTML = `${countryLP.name} with ${countryLP.population}`;
+    document.querySelector(
+      ".highest-area-value-js"
+    ).innerHTML = `${countryHA.name} with ${countryHA.area}`;
+    document.querySelector(
+      ".lowest-area-value-js"
+    ).innerHTML = `${countryLA.name} with ${countryLA.area}`;
+  });
+
+function displayCountry() {
+  document.querySelector(".country-info-js").style.display = "block";
+  let selectedCountry = document.querySelector("select").value;
+
+  let country = countries.find((country) => country.name === selectedCountry);
+
+  document.querySelector("img").src = country.flag;
+  document.querySelector(".name-js span").innerHTML = country.name;
+  document.querySelector(".capital-js span").innerHTML = country.capital;
+  document.querySelector(".population-js span").innerHTML = country.population;
+  document.querySelector(".area-js span").innerHTML = country.area;
 }
